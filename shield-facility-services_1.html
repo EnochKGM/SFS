@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shield Facility Services — Shielded. Secure. Serene.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ══════════════════════════
+   DARK MODE TOKENS (default)
+══════════════════════════ */
+:root,
+[data-theme="dark"] {
+  --brand:      #0eb8d8;
+  --brand-dk:   #0a9bbf;
+  --brand-dim:  rgba(14,184,216,.12);
+  --brand-d2:   rgba(14,184,216,.06);
+  --bg:         #07090f;
+  --bg2:        #0b0f18;
+  --bg3:        #10141f;
+  --surf:       rgba(255,255,255,.04);
+  --surf2:      rgba(255,255,255,.07);
+  --bdr:        rgba(255,255,255,.08);
+  --bdr2:       rgba(255,255,255,.14);
+  --text:       #edf3f7;
+  --muted:      rgba(237,243,247,.52);
+  --muted2:     rgba(237,243,247,.3);
+  --nav-bg:     rgba(7,9,15,.88);
+  --mob-bg:     rgba(7,9,15,.97);
+  --canvas-col: rgba(14,184,216,1);
+  --nav-h:      66px;
+  --px:         clamp(20px, 6vw, 80px);
+  --shadow-sm:  0 2px 12px rgba(0,0,0,.28);
+  --shadow-md:  0 4px 28px rgba(0,0,0,.38);
+}
+
+/* ══════════════════════════
+   LIGHT MODE TOKENS
+══════════════════════════ */
+[data-theme="light"] {
+  --brand:      #0093b8;
+  --brand-dk:   #007899;
+  --brand-dim:  rgba(0,147,184,.10);
+  --brand-d2:   rgba(0,147,184,.05);
+  --bg:         #f0f5f8;
+  --bg2:        #e4ecf1;
+  --bg3:        #d8e5ed;
+  --surf:       rgba(255,255,255,.75);
+  --surf2:      rgba(255,255,255,.92);
+  --bdr:        rgba(0,60,90,.10);
+  --bdr2:       rgba(0,60,90,.18);
+  --text:       #0d1f2d;
+  --muted:      rgba(13,31,45,.60);
+  --muted2:     rgba(13,31,45,.40);
+  --nav-bg:     rgba(240,245,248,.92);
+  --mob-bg:     rgba(240,245,248,.98);
+  --canvas-col: rgba(0,147,184,1);
+  --shadow-sm:  0 2px 12px rgba(0,60,90,.10);
+  --shadow-md:  0 4px 28px rgba(0,60,90,.15);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+  transition: background .3s ease, color .3s ease;
+}
+
+#bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+.d1 { transition-delay: .08s; }
+.d2 { transition-delay: .16s; }
+.d3 { transition-delay: .24s; }
+
+/* ══════════════════════════
+   NAV
+══════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: var(--nav-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--px);
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--bdr);
+  transition: background .3s ease, border-color .3s ease;
+}
+
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; }
+.nav-brand { display: none; flex-direction: column; line-height: 1; }
+@media (min-width: 500px) { .nav-brand { display: flex; } }
+.nav-brand-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: var(--text); transition: color .3s; }
+.nav-brand-name span { color: var(--brand); }
+.nav-brand-sub { font-size: 9px; color: var(--muted2); letter-spacing: 2px; text-transform: uppercase; margin-top: 3px; transition: color .3s; }
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+.nav-links { display: none; align-items: center; gap: 2px; list-style: none; }
+@media (min-width: 768px) { .nav-links { display: flex; } }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--muted);
+  text-decoration: none; padding: 7px 13px; border-radius: 6px;
+  transition: color .2s, background .2s;
+}
+.nav-links a:hover { color: var(--text); background: var(--surf2); }
+.nav-links .cta {
+  background: var(--brand); color: #060e16 !important;
+  font-weight: 600 !important; border-radius: 6px;
+  transition: opacity .2s, transform .2s !important;
+}
+.nav-links .cta:hover { opacity: .86; transform: translateY(-1px); }
+
+/* Theme toggle button */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--surf2); border: 1px solid var(--bdr2);
+  cursor: pointer; transition: background .2s, border-color .2s, transform .2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { background: var(--brand-dim); border-color: rgba(14,184,216,.3); transform: translateY(-1px); }
+.theme-toggle svg { width: 17px; height: 17px; stroke: var(--brand); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: opacity .2s; }
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun  { display: none; }
+[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
+
+.hb { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+.hb span { display: block; width: 22px; height: 1.5px; background: var(--muted); border-radius: 2px; transition: all .3s; }
+.hb.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hb.open span:nth-child(2) { opacity: 0; }
+.hb.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+@media (min-width: 768px) { .hb { display: none; } }
+
+.mob {
+  display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0;
+  z-index: 190; background: var(--mob-bg); backdrop-filter: blur(28px);
+  flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+  transition: background .3s ease;
+}
+.mob.open { display: flex; }
+.mob a { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--muted); text-decoration: none; transition: color .2s; }
+.mob a:hover, .mob .mcta { color: var(--brand); }
+
+/* ══════════════════════════
+   HERO
+══════════════════════════ */
+#home {
+  position: relative; z-index: 1;
+  min-height: 100svh;
+  display: grid; grid-template-columns: 1fr;
+  align-items: center;
+  padding: calc(var(--nav-h) + 64px) var(--px) 80px;
+  gap: 56px;
+  overflow: hidden;
+}
+@media (min-width: 900px) { #home { grid-template-columns: 1fr 1fr; } }
+
+.hero-text { display: flex; flex-direction: column; align-items: flex-start; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px 5px 8px;
+  background: var(--brand-dim); border: 1px solid rgba(14,184,216,.22); border-radius: 100px;
+  margin-bottom: 26px;
+  opacity: 0; animation: fadeUp .7s .1s forwards;
+}
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); flex-shrink: 0; }
+.hero-badge span { font-size: 11px; font-weight: 600; color: var(--brand); letter-spacing: .5px; text-transform: uppercase; }
+
+.hero-h {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(34px, 5.5vw, 78px);
+  font-weight: 800; line-height: 1.0; letter-spacing: -2px;
+  color: var(--text); margin-bottom: 20px;
+  opacity: 0; animation: fadeUp .7s .2s forwards;
+  transition: color .3s;
+}
+.hero-h em { font-style: normal; color: var(--brand); }
+.hero-h .dim { color: var(--muted); }
+
+.hero-sub {
+  font-size: clamp(14px, 1.6vw, 17px); color: var(--muted);
+  max-width: 440px; line-height: 1.75; margin-bottom: 36px;
+  opacity: 0; animation: fadeUp .7s .35s forwards;
+  transition: color .3s;
+}
+
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; opacity: 0; animation: fadeUp .7s .5s forwards; }
+
+.btn-brand {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px; background: var(--brand); color: #060e16;
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+  border: none; border-radius: 8px; cursor: pointer; text-decoration: none;
+  transition: opacity .2s, transform .2s;
+}
+.btn-brand svg { width: 15px; height: 15px; stroke: #060e16; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-brand:hover { opacity: .86; transform: translateY(-2px); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px; background: transparent; color: var(--text);
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500;
+  border: 1px solid var(--bdr2); border-radius: 8px; cursor: pointer; text-decoration: none;
+  transition: border-color .2s, background .2s, transform .2s, color .3s;
+}
+.btn-ghost:hover { border-color: rgba(14,184,216,.4); background: var(--brand-dim); transform: translateY(-2px); }
+
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  margin-top: 56px;
+  border: 1px solid var(--bdr); border-radius: 14px; overflow: hidden;
+  background: var(--surf);
+  opacity: 0; animation: fadeUp .7s .65s forwards;
+  width: 100%; max-width: 540px;
+  transition: background .3s, border-color .3s;
+}
+@media (max-width: 480px) {
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .hstat:nth-child(1),.hstat:nth-child(2) { border-bottom: 1px solid var(--bdr); }
+  .hstat:nth-child(2) { border-right: none; }
+}
+.hstat { padding: 18px 10px; text-align: center; border-right: 1px solid var(--bdr); transition: border-color .3s; }
+.hstat:last-child { border-right: none; }
+.hstat-n { font-family: 'Syne', sans-serif; font-size: clamp(18px,3vw,28px); font-weight: 800; color: var(--brand); line-height: 1; }
+.hstat-l { font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+/* Hero visual */
+.hero-visual { display: none; align-items: center; justify-content: center; }
+@media (min-width: 900px) { .hero-visual { display: flex; } }
+.hero-ring-wrap {
+  position: relative; width: min(400px,40vw); height: min(400px,40vw);
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-ring-wrap svg.rings { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.hero-logo-box {
+  position: relative; z-index: 2;
+  width: 54%; height: 54%;
+  background: rgba(14,184,216,.07); border: 1px solid rgba(14,184,216,.2); border-radius: 18px;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: floatY 4s ease-in-out infinite;
+}
+.hero-logo-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+@keyframes fadeUp  { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes spinRev { to { transform: rotate(-360deg); } }
+@keyframes floatY  { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+/* ══════════════════════════
+   TRUST BAR
+══════════════════════════ */
+#trust {
+  position: relative; z-index: 1;
+  padding: 30px var(--px);
+  background: var(--bg2);
+  border-top: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr);
+  transition: background .3s, border-color .3s;
+}
+.trust-lbl { font-size: 11px; color: var(--muted2); text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 18px; }
+.trust-row { display: flex; align-items: center; justify-content: center; gap: clamp(18px,4vw,48px); flex-wrap: wrap; }
+.trust-item { display: flex; align-items: center; gap: 7px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--muted2); letter-spacing: .4px; }
+.trust-item svg { width: 14px; height: 14px; stroke: var(--muted2); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+/* ══════════════════════════
+   SHARED
+══════════════════════════ */
+.section { position: relative; z-index: 1; padding: clamp(56px,8vw,96px) var(--px); transition: background .3s; }
+.s-label { font-size: 11px; font-weight: 600; color: var(--brand); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 10px; }
+.s-h {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(24px,4vw,46px); font-weight: 800; color: var(--text);
+  line-height: 1.08; letter-spacing: -1px; margin-bottom: 12px;
+  transition: color .3s;
+}
+.s-sub { font-size: clamp(14px,1.6vw,16px); color: var(--muted); max-width: 520px; line-height: 1.75; transition: color .3s; }
+.s-head { margin-bottom: 40px; }
+
+/* ══════════════════════════
+   SERVICES
+══════════════════════════ */
+#services { background: var(--bg); }
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+  gap: 1px; background: var(--bdr);
+  border: 1px solid var(--bdr); border-radius: 16px; overflow: hidden;
+}
+.svc-card {
+  background: var(--bg2); padding: 28px 24px;
+  display: flex; flex-direction: column; gap: 12px; transition: background .25s;
+}
+.svc-card:hover { background: var(--bg3); }
+.svc-ico {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--brand-d2); border: 1px solid rgba(14,184,216,.13);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.svc-ico svg { width: 22px; height: 22px; stroke: var(--brand); fill: none; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.svc-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.2; transition: color .3s; }
+.svc-desc { font-size: 13px; color: var(--muted); line-height: 1.7; flex: 1; transition: color .3s; }
+.svc-tag {
+  margin-top: 6px; align-self: flex-start;
+  display: inline-flex; align-items: center;
+  padding: 4px 11px; border-radius: 100px;
+  font-size: 10px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
+  color: var(--brand); background: var(--brand-dim); border: 1px solid rgba(14,184,216,.15);
+}
+
+/* ══════════════════════════
+   WHY US
+══════════════════════════ */
+#why { background: var(--bg2); }
+.why-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; }
+@media (min-width: 900px) { .why-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+
+.why-pills { display: flex; flex-direction: column; gap: 12px; }
+.why-pill {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 18px 20px; background: var(--surf); border: 1px solid var(--bdr); border-radius: 12px;
+  transition: border-color .25s, background .25s;
+}
+.why-pill:hover { border-color: rgba(14,184,216,.26); background: var(--brand-d2); }
+.why-pill-ico {
+  width: 40px; height: 40px; border-radius: 9px;
+  background: var(--brand-d2); border: 1px solid rgba(14,184,216,.12);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.why-pill-ico svg { width: 18px; height: 18px; stroke: var(--brand); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.why-pill-h { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; transition: color .3s; }
+.why-pill-p { font-size: 13px; color: var(--muted); line-height: 1.6; transition: color .3s; }
+
+.why-visual { display: flex; align-items: center; justify-content: center; }
+.why-orbit-wrap {
+  position: relative; width: min(360px,88vw); height: min(360px,88vw);
+  display: flex; align-items: center; justify-content: center;
+}
+.why-orbit-wrap svg.rings { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.why-logo-box {
+  position: relative; z-index: 2; width: 50%; height: 50%;
+  background: rgba(14,184,216,.07); border: 1px solid rgba(14,184,216,.2); border-radius: 16px;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+  animation: floatY 4.5s ease-in-out infinite;
+}
+.why-logo-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* ══════════════════════════
+   NUMBERS
+══════════════════════════ */
+#numbers { background: var(--bg); }
+.nums-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
+  gap: 1px; background: var(--bdr);
+  border: 1px solid var(--bdr); border-radius: 16px; overflow: hidden; margin-top: 40px;
+}
+.ncell { background: var(--bg2); padding: clamp(22px,4vw,38px) 14px; text-align: center; transition: background .25s; }
+.ncell:hover { background: var(--bg3); }
+.nval { font-family: 'Syne', sans-serif; font-size: clamp(26px,4vw,44px); font-weight: 800; color: var(--brand); line-height: 1; letter-spacing: -1.5px; }
+.nlbl { font-size: 11px; color: var(--muted); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* ══════════════════════════
+   ABOUT
+══════════════════════════ */
+#about { background: var(--bg2); }
+.about-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: start; }
+@media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1fr; gap: 72px; } }
+
+.about-quote {
+  font-family: 'Syne', sans-serif; font-size: clamp(16px,2vw,22px); font-weight: 700;
+  color: var(--text); line-height: 1.35; border-left: 3px solid var(--brand); padding-left: 20px;
+  margin: 22px 0; transition: color .3s;
+}
+.about-p { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 14px; transition: color .3s; }
+.badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border: 1px solid var(--bdr2); border-radius: 100px;
+  font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: .3px;
+  transition: color .3s, border-color .3s;
+}
+.badge svg { width: 10px; height: 10px; stroke: var(--brand); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+.about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.acard {
+  background: var(--surf); border: 1px solid var(--bdr); border-radius: 14px;
+  padding: clamp(16px,3vw,24px); transition: border-color .25s, background .3s;
+}
+.acard:hover { border-color: rgba(14,184,216,.26); }
+.acard:nth-child(even) { margin-top: 20px; }
+.acard-ico { width: 32px; height: 32px; border-radius: 7px; background: var(--brand-dim); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+.acard-ico svg { width: 14px; height: 14px; stroke: var(--brand); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.acard-n { font-family: 'Syne', sans-serif; font-size: clamp(18px,3vw,26px); font-weight: 800; color: var(--text); line-height: 1; transition: color .3s; }
+.acard-l { font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; transition: color .3s; }
+
+/* Proprietor card */
+.proprietor-card {
+  margin-top: 28px; display: flex; align-items: center; gap: 16px;
+  padding: 18px 20px; background: var(--surf); border: 1px solid var(--bdr); border-radius: 12px;
+  transition: background .3s, border-color .3s;
+}
+.prop-avatar {
+  width: 48px; height: 48px; border-radius: 50%; background: var(--brand-dim);
+  border: 2px solid rgba(14,184,216,.3); display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; color: var(--brand); flex-shrink: 0;
+}
+.prop-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); transition: color .3s; }
+.prop-role { font-size: 12px; color: var(--brand); letter-spacing: .5px; margin-top: 2px; }
+
+/* ══════════════════════════
+   TESTIMONIALS
+══════════════════════════ */
+#testimonials { background: var(--bg); }
+.tgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 14px; margin-top: 40px; }
+.tcard {
+  background: var(--bg2); border: 1px solid var(--bdr); border-radius: 16px;
+  padding: clamp(20px,3vw,28px); display: flex; flex-direction: column; transition: border-color .25s, background .3s;
+}
+.tcard:hover { border-color: rgba(14,184,216,.22); }
+.tcard-stars { display: flex; gap: 3px; margin-bottom: 14px; }
+.tcard-stars svg { width: 14px; height: 14px; fill: var(--brand); stroke: none; }
+.tcard-q { font-size: 14px; color: var(--text); line-height: 1.75; font-style: italic; flex: 1; margin-bottom: 20px; transition: color .3s; }
+.tcard-sep { width: 28px; height: 1px; background: var(--bdr2); margin-bottom: 16px; }
+.tcard-auth { display: flex; align-items: center; gap: 12px; }
+.tcard-av {
+  width: 38px; height: 38px; border-radius: 50%; background: var(--brand-dim);
+  border: 1px solid rgba(14,184,216,.22); display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--brand); flex-shrink: 0;
+}
+.tcard-name { font-size: 14px; font-weight: 600; color: var(--text); transition: color .3s; }
+.tcard-role { font-size: 12px; color: var(--muted2); margin-top: 2px; transition: color .3s; }
+
+/* ══════════════════════════
+   CTA BAND
+══════════════════════════ */
+#cta-band {
+  position: relative; z-index: 1;
+  background: var(--brand); padding: clamp(52px,8vw,88px) var(--px);
+  text-align: center; overflow: hidden;
+}
+#cta-band::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 90% at 50% 50%, rgba(255,255,255,.15), transparent);
+  pointer-events: none;
+}
+.cta-h { font-family: 'Syne', sans-serif; font-size: clamp(26px,5vw,54px); font-weight: 800; color: #04111a; letter-spacing: -1.5px; line-height: 1.0; margin-bottom: 14px; }
+.cta-p { font-size: clamp(14px,1.8vw,17px); color: rgba(4,17,26,.62); max-width: 440px; margin: 0 auto 32px; line-height: 1.65; }
+.btn-dark {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 14px 30px; background: #04111a; color: var(--brand);
+  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+  border-radius: 8px; text-decoration: none; transition: transform .2s, opacity .2s;
+}
+.btn-dark svg { width: 15px; height: 15px; stroke: var(--brand); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-dark:hover { transform: translateY(-2px); opacity: .9; }
+
+/* ══════════════════════════
+   CONTACT
+══════════════════════════ */
+#contact { background: var(--bg2); }
+.c-wrap { display: grid; grid-template-columns: 1fr; gap: 40px; margin-top: 40px; }
+@media (min-width: 900px) { .c-wrap { grid-template-columns: 1fr 1.4fr; gap: 52px; } }
+
+.cinfo { display: flex; flex-direction: column; gap: 12px; }
+.ci {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 18px; background: var(--surf); border: 1px solid var(--bdr); border-radius: 12px;
+  transition: border-color .25s, background .3s;
+}
+.ci:hover { border-color: rgba(14,184,216,.22); }
+.ci-ico { width: 36px; height: 36px; border-radius: 8px; background: var(--brand-dim); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ci-ico svg { width: 16px; height: 16px; stroke: var(--brand); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ci-h { font-size: 10px; font-weight: 600; color: var(--brand); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
+.ci-p { font-size: 13px; color: var(--muted); line-height: 1.65; transition: color .3s; }
+.ci-p a { color: var(--brand); text-decoration: none; }
+.ci-p a:hover { text-decoration: underline; }
+
+.cform { background: var(--surf); border: 1px solid var(--bdr); border-radius: 16px; padding: clamp(22px,5vw,38px); transition: background .3s, border-color .3s; }
+.cform-h { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -.4px; margin-bottom: 24px; transition: color .3s; }
+.fg { margin-bottom: 14px; }
+.fg label { display: block; font-size: 10px; font-weight: 600; color: var(--muted2); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 7px; }
+.fg input, .fg select, .fg textarea {
+  width: 100%; padding: 11px 13px;
+  background: var(--surf2); border: 1px solid var(--bdr); border-radius: 7px;
+  color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+  outline: none; transition: border-color .2s, background .3s, color .3s; -webkit-appearance: none;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: rgba(14,184,216,.45); }
+.fg input::placeholder, .fg textarea::placeholder { color: var(--muted2); }
+.fg textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+.fg select option { background: var(--bg2); color: var(--text); }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 460px) { .frow { grid-template-columns: 1fr; } }
+.btn-submit {
+  width: 100%; padding: 14px; background: var(--brand); color: #04111a;
+  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+  border: none; border-radius: 8px; cursor: pointer; margin-top: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: opacity .2s, transform .2s;
+}
+.btn-submit svg { width: 16px; height: 16px; stroke: #04111a; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-submit:hover { opacity: .86; transform: translateY(-2px); }
+
+/* ══════════════════════════
+   FOOTER
+══════════════════════════ */
+footer {
+  position: relative; z-index: 1;
+  background: var(--bg); border-top: 1px solid var(--bdr);
+  padding: clamp(40px,6vw,68px) var(--px) 26px;
+  transition: background .3s, border-color .3s;
+}
+.ftop { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 40px; }
+@media (min-width: 640px) { .ftop { grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 32px; } }
+.fbrand { grid-column: 1/-1; }
+@media (min-width: 640px) { .fbrand { grid-column: auto; } }
+.fbrand-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-bottom: 14px; }
+.fbrand-logo img { height: 30px; width: auto; display: block; object-fit: contain; }
+.fbrand-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: var(--text); transition: color .3s; }
+.fbrand-name span { color: var(--brand); }
+.fbrand-p { font-size: 12px; color: var(--muted2); line-height: 1.7; max-width: 240px; transition: color .3s; }
+.fcol h5 { font-size: 10px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 14px; }
+.fcol ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.fcol a { font-size: 13px; color: var(--muted2); text-decoration: none; transition: color .2s; }
+.fcol a:hover { color: var(--text); }
+.fbot {
+  border-top: 1px solid var(--bdr); padding-top: 20px;
+  display: flex; flex-direction: column; gap: 6px; align-items: center; text-align: center;
+  transition: border-color .3s;
+}
+@media (min-width: 560px) { .fbot { flex-direction: row; justify-content: space-between; text-align: left; } }
+.fbot p, .fbot a { font-size: 12px; color: var(--muted2); transition: color .3s; }
+.fbot a { color: var(--brand); text-decoration: none; }
+
+/* Mobile FAB */
+.fab {
+  display: none; position: fixed; bottom: 20px; right: 18px; z-index: 150;
+  padding: 12px 20px; background: var(--brand); color: #04111a;
+  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+  border-radius: 100px; text-decoration: none;
+  box-shadow: 0 4px 24px rgba(14,184,216,.3);
+  align-items: center; gap: 7px; transition: transform .2s;
+}
+.fab svg { width: 14px; height: 14px; stroke: #04111a; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.fab:hover { transform: translateY(-2px); }
+@media (max-width: 767px) { .fab { display: flex; } }
+
+/* ══════════════════════════
+   GALLERY SECTION
+══════════════════════════ */
+#gallery { background: var(--bg); }
+
+.gallery-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 32px; padding-bottom: 0;
+  border-bottom: 1px solid var(--bdr);
+  padding-bottom: 16px;
+  transition: border-color .3s;
+}
+
+.gtab {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
+  color: var(--muted); background: transparent; border: 1px solid var(--bdr);
+  transition: all .2s;
+}
+.gtab:hover { color: var(--text); border-color: var(--bdr2); background: var(--surf2); }
+.gtab.active {
+  color: #04111a; background: var(--brand); border-color: var(--brand);
+  font-weight: 600;
+}
+.gtab svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.gtab.active svg { stroke: #04111a; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 560px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+@media (min-width: 900px) { .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+
+.gallery-card {
+  position: relative; border-radius: 12px; overflow: hidden;
+  background: var(--bg2); border: 1px solid var(--bdr);
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  display: none;
+}
+.gallery-card.visible { display: block; }
+.gallery-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: rgba(14,184,216,.25); }
+.gallery-card img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .4s ease;
+}
+.gallery-card:hover img { transform: scale(1.04); }
+.gallery-card-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px 12px 14px;
+  background: linear-gradient(to top, rgba(0,0,0,.72) 0%, transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  opacity: 0; transition: opacity .25s;
+}
+[data-theme="light"] .gallery-card-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,.60) 0%, transparent 100%);
+}
+.gallery-card:hover .gallery-card-overlay { opacity: 1; }
+.gallery-card-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #fff; line-height: 1.2; }
+.gallery-card-role { font-size: 10px; color: rgba(255,255,255,.7); margin-top: 2px; letter-spacing: .5px; text-transform: uppercase; }
+
+.gallery-placeholder {
+  grid-column: 1/-1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 56px 20px;
+  background: var(--surf); border: 1px dashed var(--bdr2); border-radius: 16px;
+  text-align: center;
+  display: none;
+}
+.gallery-placeholder.visible { display: flex; }
+.gallery-placeholder svg { width: 40px; height: 40px; stroke: var(--muted2); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.gallery-placeholder p { font-size: 14px; color: var(--muted2); max-width: 280px; line-height: 1.6; }
+.gallery-placeholder span { font-size: 12px; color: var(--brand); font-weight: 500; }
+
+/* Lightbox */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,.88);
+  align-items: center; justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+}
+.lightbox.open { display: flex; }
+.lightbox-img-wrap {
+  position: relative; max-width: min(90vw, 800px); max-height: 88vh;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.lightbox-img-wrap img {
+  max-width: 100%; max-height: 80vh; object-fit: contain;
+  border-radius: 12px; display: block;
+  box-shadow: 0 8px 60px rgba(0,0,0,.6);
+}
+.lightbox-info {
+  text-align: center;
+}
+.lightbox-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #fff; }
+.lightbox-role { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.lightbox-close {
+  position: fixed; top: 20px; right: 20px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background .2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,.2); }
+.lightbox-close svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <img src="logo.png" alt="Shield Facility Services"/>
+    <div class="nav-brand">
+      <div class="nav-brand-name">S<span>F</span>S</div>
+      <div class="nav-brand-sub">Shield Facility Services</div>
+    </div>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact" class="cta">Contact Us</a></li>
+    </ul>
+    <!-- Light/Dark toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+      <!-- Moon icon (shown in dark mode) -->
+      <svg class="icon-moon" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <!-- Sun icon (shown in light mode) -->
+      <svg class="icon-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+    <button class="hb" id="hb" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mob" id="mob">
+  <a href="#services">Services</a>
+  <a href="#why">Why Us</a>
+  <a href="#about">About</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#contact" class="mcta">Contact Us →</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="home" class="section" style="padding-top:calc(var(--nav-h) + 64px)">
+
+  <div class="hero-text">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <span>Professional Quality Services with a Personal Touch</span>
+    </div>
+
+    <h1 class="hero-h">
+      Providing Best<br/>
+      <em>Assistance Solutions</em><br/>
+      <span class="dim">&amp; Customer Satisfaction</span>
+    </h1>
+
+    <p class="hero-sub">
+      Shield Facility Services is your one-stop partner for Security, Housekeeping, Pest Control, Plumbing, Gardening, CCTV, and Electrical Services — across Bangalore and beyond.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#contact" class="btn-brand">
+        Get a Free Quote
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#services" class="btn-ghost">Our Services</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">8+</div><div class="hstat-l">Services</div></div>
+      <div class="hstat"><div class="hstat-n">24/7</div><div class="hstat-l">Support</div></div>
+      <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l">Transparent</div></div>
+      <div class="hstat"><div class="hstat-n">✓</div><div class="hstat-l">Licensed</div></div>
+    </div>
+  </div>
+
+  <div class="hero-visual" aria-hidden="true">
+    <div class="hero-ring-wrap">
+      <svg class="rings" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="200" cy="200" r="192" fill="none" stroke="rgba(14,184,216,.05)" stroke-width="1"/>
+        <g style="transform-origin:200px 200px;animation:spin 50s linear infinite">
+          <circle cx="200" cy="200" r="160" fill="none" stroke="rgba(14,184,216,.07)" stroke-width="1" stroke-dasharray="6 14"/>
+        </g>
+        <g style="transform-origin:200px 200px;animation:spinRev 34s linear infinite">
+          <circle cx="200" cy="200" r="124" fill="none" stroke="rgba(14,184,216,.1)" stroke-width="1" stroke-dasharray="3 9"/>
+        </g>
+        <g style="transform-origin:200px 200px;animation:spin 18s linear infinite">
+          <circle cx="200" cy="40" r="7" fill="rgba(14,184,216,.55)"/>
+        </g>
+        <g style="transform-origin:200px 200px;animation:spinRev 26s linear infinite">
+          <circle cx="200" cy="76" r="4" fill="rgba(14,184,216,.3)"/>
+        </g>
+        <g style="transform-origin:200px 200px;animation:spin 38s linear infinite">
+          <circle cx="200" cy="360" r="5" fill="rgba(14,184,216,.2)"/>
+        </g>
+      </svg>
+      <div class="hero-logo-box">
+        <img src="logo.png" alt="SFS Logo"/>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ TRUST BAR ══ -->
+<div id="trust">
+  <p class="trust-lbl">Serving Residential &amp; Commercial clients across Bangalore</p>
+  <div class="trust-row">
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>HOMES &amp; APARTMENTS</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>OFFICES &amp; TECH PARKS</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>HOSPITALS</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>MALLS &amp; RETAIL</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>SCHOOLS &amp; UNIVERSITIES</div>
+  </div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services" class="section">
+  <div class="s-head reveal">
+    <p class="s-label">What We Do</p>
+    <h2 class="s-h">Our Services</h2>
+    <p class="s-sub">High-trained staff, quality tools, and 100% transparent pricing — across 8 essential facility services.</p>
+  </div>
+
+  <div class="svc-grid">
+    <div class="svc-card reveal">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+      <div class="svc-name">Security Services</div>
+      <p class="svc-desc">Comprehensive security from consulting and safeguarding to surveillance and audits. Trained manpower with uninterrupted deployment to ensure you are always protected — across residential, commercial, and industrial sites.</p>
+      <span class="svc-tag">Core Service</span>
+    </div>
+    <div class="svc-card reveal d1">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="svc-name">House Keeping &amp; Cleaning</div>
+      <p class="svc-desc">Reliable cleaning services including housekeeping, carpet and sofa cleaning, and swimming pool cleaning — keeping your premises spic and span. We also provide sewage and wastewater treatment solutions.</p>
+      <span class="svc-tag">Facility</span>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+      <div class="svc-name">Pest Control</div>
+      <p class="svc-desc">Personalised pest management solutions for residential and commercial properties. Our experienced staff inspects your location and provides customised, best-suited solutions for all pest problems.</p>
+      <span class="svc-tag">Facility</span>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+      <div class="svc-name">Plumbing Services</div>
+      <p class="svc-desc">Verified and trained plumbers who inspect, identify the problem, and communicate rates upfront. Covers fitting and changing of taps, basins, conceals, wall mixers, and repairs for blockages and leakages.</p>
+      <span class="svc-tag">Maintenance</span>
+    </div>
+    <div class="svc-card reveal d1">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20A10 10 0 0 1 12 2z"/><path d="M12 8v4l3 3"/><path d="M7 3.3A10 10 0 0 0 4 8"/></svg></div>
+      <div class="svc-name">Gardening &amp; Landscaping</div>
+      <p class="svc-desc">Professional gardening and landscaping for residential communities, commercial projects, malls, and offices. We bring life and greenery to your outdoor spaces with regular upkeep and beautification.</p>
+      <span class="svc-tag">Facility</span>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+      <div class="svc-name">CCTV Installations</div>
+      <p class="svc-desc">Supply and installation of CCTV cameras, IP cameras, DVRs, NVRs, video door phones, access controls, and security alarms — for homes, apartments, offices, retail shops, factories, hospitals, schools, and universities.</p>
+      <span class="svc-tag">Security</span>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <div class="svc-name">Electrical Services</div>
+      <p class="svc-desc">Well-trained electricians for residential, industrial, and commercial areas. We handle renovation projects with or without material — guaranteed to be done right and on time.</p>
+      <span class="svc-tag">Maintenance</span>
+    </div>
+    <div class="svc-card reveal d1">
+      <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg></div>
+      <div class="svc-name">Water Tank &amp; STP / ETP Cleaning</div>
+      <p class="svc-desc">Safe and effective cleaning and disinfection of storage water tanks, sewage treatment plants (STP), and effluent treatment plants (ETP). Cost-effective maintenance and emergency service across Bangalore.</p>
+      <span class="svc-tag">Facility</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY US ══ -->
+<section id="why" class="section">
+  <div class="why-grid">
+    <div>
+      <div class="s-head reveal">
+        <p class="s-label">The SFS Difference</p>
+        <h2 class="s-h">Why Choose Shield Facility Services?</h2>
+        <p class="s-sub">We deliver professional quality services with a personal touch — every time.</p>
+      </div>
+      <div class="why-pills">
+        <div class="why-pill reveal">
+          <div class="why-pill-ico"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <div>
+            <div class="why-pill-h">High-Trained Staff</div>
+            <p class="why-pill-p">Every team member is rigorously trained, background-verified, and equipped with the expertise to handle your specific requirements.</p>
+          </div>
+        </div>
+        <div class="why-pill reveal d1">
+          <div class="why-pill-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+          <div>
+            <div class="why-pill-h">Quality Cleaning Tools &amp; Equipment</div>
+            <p class="why-pill-p">We use industry-grade, professional tools and cleaning agents — ensuring results that meet the highest environmental and industrial standards.</p>
+          </div>
+        </div>
+        <div class="why-pill reveal d2">
+          <div class="why-pill-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div>
+            <div class="why-pill-h">100% Transparent Pricing</div>
+            <p class="why-pill-p">No hidden charges, no surprises. Our staff communicates rates upfront before beginning any work — complete honesty guaranteed.</p>
+          </div>
+        </div>
+        <div class="why-pill reveal d3">
+          <div class="why-pill-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div>
+            <div class="why-pill-h">One-Stop Solution</div>
+            <p class="why-pill-p">Security, cleaning, pest control, plumbing, electrical, CCTV, gardening, and more — one call handles it all. Cost-effective and convenient.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why-visual reveal d1">
+      <div class="why-orbit-wrap" aria-hidden="true">
+        <svg class="rings" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="180" cy="180" r="172" fill="none" stroke="rgba(14,184,216,.05)" stroke-width="1"/>
+          <g style="transform-origin:180px 180px;animation:spin 44s linear infinite">
+            <circle cx="180" cy="180" r="142" fill="none" stroke="rgba(14,184,216,.08)" stroke-width="1" stroke-dasharray="5 12"/>
+          </g>
+          <g style="transform-origin:180px 180px;animation:spinRev 30s linear infinite">
+            <circle cx="180" cy="180" r="108" fill="none" stroke="rgba(14,184,216,.1)" stroke-width="1" stroke-dasharray="3 8"/>
+          </g>
+          <g style="transform-origin:180px 180px;animation:spin 20s linear infinite">
+            <circle cx="180" cy="38" r="7" fill="rgba(14,184,216,.55)"/>
+          </g>
+          <g style="transform-origin:180px 180px;animation:spinRev 28s linear infinite">
+            <circle cx="180" cy="72" r="4" fill="rgba(14,184,216,.3)"/>
+          </g>
+          <g style="transform-origin:180px 180px;animation:spin 40s linear infinite">
+            <circle cx="180" cy="322" r="5" fill="rgba(14,184,216,.2)"/>
+          </g>
+        </svg>
+        <div class="why-logo-box">
+          <img src="logo.png" alt="SFS Logo"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NUMBERS ══ -->
+<section id="numbers" class="section">
+  <div class="reveal" style="text-align:center">
+    <p class="s-label">By The Numbers</p>
+    <h2 class="s-h">Proven Performance, Satisfied Clients</h2>
+  </div>
+  <div class="nums-grid reveal d1">
+    <div class="ncell"><div class="nval">8+</div><div class="nlbl">Services Offered</div></div>
+    <div class="ncell"><div class="nval">100%</div><div class="nlbl">Transparent Pricing</div></div>
+    <div class="ncell"><div class="nval">24/7</div><div class="nlbl">Emergency Service</div></div>
+    <div class="ncell"><div class="nval">All</div><div class="nlbl">Bangalore</div></div>
+    <div class="ncell"><div class="nval">✓</div><div class="nlbl">Licensed &amp; Verified</div></div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about" class="section">
+  <div class="about-grid">
+    <div class="reveal">
+      <p class="s-label">About Us</p>
+      <h2 class="s-h">Shield Facility Services</h2>
+      <blockquote class="about-quote">"Professional Quality Services with a Personal Touch."</blockquote>
+      <p class="about-p">Shield Facility Services is a safe and effective solution to clean, disinfect, and manage your premises. We provide high-quality service to meet our clients' environmental and industrial cleaning needs — with a team that delivers cost-effective maintenance and emergency service.</p>
+      <p class="about-p">From Water Tank Cleaning (STP/ETP) and Housekeeping to CCTV Installations, Plumbing, and Electrical Services — we cover all commercial and residential needs across Bangalore.</p>
+      <div class="proprietor-card">
+        <div class="prop-avatar">MM</div>
+        <div>
+          <div class="prop-name">Mohanraju M</div>
+          <div class="prop-role">Proprietor, Shield Facility Services</div>
+        </div>
+      </div>
+      <div class="badges" style="margin-top:22px">
+        <div class="badge"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>High-Trained Staff</div>
+        <div class="badge"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Quality Cleaning Tools</div>
+        <div class="badge"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>100% Transparent Pricing</div>
+        <div class="badge"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Residential &amp; Commercial</div>
+      </div>
+    </div>
+    <div class="about-cards reveal d1">
+      <div class="acard">
+        <div class="acard-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="acard-n">Security</div>
+        <div class="acard-l">Guards &amp; Surveillance</div>
+      </div>
+      <div class="acard">
+        <div class="acard-ico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+        <div class="acard-n">Cleaning</div>
+        <div class="acard-l">Housekeeping &amp; More</div>
+      </div>
+      <div class="acard">
+        <div class="acard-ico"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div class="acard-n">Electrical</div>
+        <div class="acard-l">All Residential &amp; Commercial</div>
+      </div>
+      <div class="acard">
+        <div class="acard-ico"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <div class="acard-n">CCTV</div>
+        <div class="acard-l">Installations &amp; Access Control</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section id="testimonials" class="section">
+  <div class="s-head reveal">
+    <p class="s-label">Client Voices</p>
+    <h2 class="s-h">What Our Clients Are Saying</h2>
+  </div>
+  <div class="tgrid">
+    <div class="tcard reveal">
+      <div class="tcard-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="tcard-q">"Shield Facility Services completely transformed our apartment complex's security and cleanliness. Professional, punctual, and always going the extra mile."</p>
+      <div class="tcard-sep"></div>
+      <div class="tcard-auth">
+        <div class="tcard-av">RK</div>
+        <div><div class="tcard-name">Rajesh Kumar</div><div class="tcard-role">RWA President, Whitefield</div></div>
+      </div>
+    </div>
+    <div class="tcard reveal d1">
+      <div class="tcard-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="tcard-q">"Hired them for pest control and CCTV installation. Pricing was fully transparent, staff was courteous and knowledgeable. Would highly recommend."</p>
+      <div class="tcard-sep"></div>
+      <div class="tcard-auth">
+        <div class="tcard-av">PS</div>
+        <div><div class="tcard-name">Priya Shenoy</div><div class="tcard-role">Facility Manager, Bangalore Office</div></div>
+      </div>
+    </div>
+    <div class="tcard reveal d2">
+      <div class="tcard-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="tcard-q">"The plumbing and electrical team from Shield resolved our long-standing issues in one visit. Quick, reliable, and fairly priced. Our go-to facility partner now."</p>
+      <div class="tcard-sep"></div>
+      <div class="tcard-auth">
+        <div class="tcard-av">AM</div>
+        <div><div class="tcard-name">Arjun Mehta</div><div class="tcard-role">Property Manager, Gandhipuram</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BAND ══ -->
+<div id="cta-band" class="reveal">
+  <h2 class="cta-h">Ready to Get Started?</h2>
+  <p class="cta-p">Call us or send a message — we'll get back to you promptly with a customised plan for your premises.</p>
+  <a href="tel:+916362675057" class="btn-dark">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82A16 16 0 0 0 14 15.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    +91 6362675057
+  </a>
+</div>
+
+<!-- ══ GALLERY ══ -->
+<section id="gallery" class="section">
+  <div class="s-head reveal">
+    <p class="s-label">Our Team</p>
+    <h2 class="s-h">Meet Our People</h2>
+    <p class="s-sub">The trained professionals behind every service — security guards, housekeeping staff, technicians, and more.</p>
+  </div>
+
+  <!-- Category tabs -->
+  <div class="gallery-tabs reveal d1">
+    <button class="gtab active" data-cat="all">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      All
+    </button>
+    <button class="gtab" data-cat="security">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Security Guards
+    </button>
+    <button class="gtab" data-cat="housekeeping">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      Housekeeping
+    </button>
+    <button class="gtab" data-cat="technical">
+      <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Technical Staff
+    </button>
+    <button class="gtab" data-cat="other">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      Other
+    </button>
+  </div>
+
+  <!-- Photo grid — populated by JS -->
+  <div class="gallery-grid reveal d2" id="galleryGrid">
+    <!-- Placeholder shown when no photos in a category -->
+    <div class="gallery-placeholder" id="galleryEmpty">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <p>No photos yet in this category.</p>
+      <span>Add images via the code section below.</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="lightbox-img-wrap">
+    <img id="lightboxImg" src="" alt=""/>
+    <div class="lightbox-info">
+      <div class="lightbox-name" id="lightboxName"></div>
+      <div class="lightbox-role" id="lightboxRole"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact" class="section">
+  <div class="s-head reveal">
+    <p class="s-label">Get In Touch</p>
+    <h2 class="s-h">Contact Us</h2>
+    <p class="s-sub">Reach out and we'll respond promptly with a personalised solution for your requirement.</p>
+  </div>
+
+  <div class="c-wrap">
+    <div class="cinfo reveal">
+      <div class="ci">
+        <div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82A16 16 0 0 0 14 15.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div>
+          <div class="ci-h">Phone</div>
+          <p class="ci-p"><a href="tel:+916362675057">+91 6362675057</a><br/><a href="tel:+919980490637">+91 9980490637</a></p>
+        </div>
+      </div>
+      <div class="ci">
+        <div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div>
+          <div class="ci-h">Email</div>
+          <p class="ci-p"><a href="mailto:shieldfacilityservice@gmail.com">shieldfacilityservice@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="ci">
+        <div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <div class="ci-h">Address</div>
+          <p class="ci-p">#241, 2nd Main, 8th Cross, Gandhipuram,<br/>Whitefield, Bangalore – 560066</p>
+        </div>
+      </div>
+      <div class="ci">
+        <div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div>
+          <div class="ci-h">Availability</div>
+          <p class="ci-p">24 &times; 7 Emergency Service Available<br/>All over Bangalore</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cform reveal d1">
+      <div class="cform-h">Send Us a Message</div>
+      <div class="frow">
+        <div class="fg"><label>First Name</label><input type="text" placeholder="Mohan"/></div>
+        <div class="fg"><label>Last Name</label><input type="text" placeholder="Kumar"/></div>
+      </div>
+      <div class="fg"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+      <div class="fg"><label>Email</label><input type="email" placeholder="you@email.com"/></div>
+      <div class="fg">
+        <label>Service Required</label>
+        <select>
+          <option value="">Select a service…</option>
+          <option>Security Services</option>
+          <option>House Keeping &amp; Cleaning</option>
+          <option>Pest Control</option>
+          <option>Plumbing Services</option>
+          <option>Gardening &amp; Landscaping</option>
+          <option>CCTV Installation</option>
+          <option>Electrical Services</option>
+          <option>Water Tank / STP / ETP Cleaning</option>
+          <option>Multiple Services</option>
+        </select>
+      </div>
+      <div class="fg"><label>Message</label><textarea placeholder="Tell us about your property, requirements, location, and any specific concerns…"></textarea></div>
+      <button class="btn-submit" id="sendBtn">
+        Send Message
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="ftop">
+    <div class="fbrand">
+      <a href="#home" class="fbrand-logo">
+        <img src="logo.png" alt="SFS Logo"/>
+        <div class="fbrand-name">Shield<span>FS</span></div>
+      </a>
+      <p class="fbrand-p">Professional Quality Services with a personal touch — Security, Housekeeping, Pest Control, Plumbing, Electrical, CCTV, Gardening &amp; more across Bangalore.</p>
+    </div>
+    <div class="fcol">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">Security Services</a></li>
+        <li><a href="#services">House Keeping</a></li>
+        <li><a href="#services">Pest Control</a></li>
+        <li><a href="#services">Plumbing</a></li>
+        <li><a href="#services">Gardening</a></li>
+        <li><a href="#services">CCTV Installations</a></li>
+        <li><a href="#services">Electrical Services</a></li>
+        <li><a href="#services">STP / ETP Cleaning</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#why">Why Choose Us</a></li>
+        <li><a href="#testimonials">Client Reviews</a></li>
+        <li><a href="#gallery">Team Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+916362675057">+91 6362675057</a></li>
+        <li><a href="tel:+919980490637">+91 9980490637</a></li>
+        <li><a href="mailto:shieldfacilityservice@gmail.com">shieldfacilityservice@gmail.com</a></li>
+        <li><a href="#">Whitefield, Bangalore – 560066</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fbot">
+    <p>&copy; 2025 Shield Facility Services. Proprietor: Mohanraju M. All rights reserved.</p>
+    <a href="mailto:shieldfacilityservice@gmail.com">shieldfacilityservice@gmail.com</a>
+  </div>
+</footer>
+
+<!-- Mobile FAB -->
+<a href="tel:+916362675057" class="fab" aria-label="Call us">
+  <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82A16 16 0 0 0 14 15.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  Call Now
+</a>
+
+<script>
+/* ══════════════════════════════════════════════
+   GALLERY PHOTOS — ADD YOUR PHOTOS HERE
+   Format: { src, name, role, cat }
+   cat options: "security" | "housekeeping" | "technical" | "other"
+   Example:
+   { src: "guard1.jpg", name: "Ravi Kumar", role: "Security Guard", cat: "security" },
+══════════════════════════════════════════════ */
+const GALLERY_PHOTOS = [
+  { src: "g2.jpeg",name: "",role: "Security Guards",cat: "security"},
+  { src: "g1.jpeg",name: "",role: "Security Guards",cat: "security" },
+  { src: "g3.jpeg", name: "Mohan & Team",   role: "Security Guards",cat: "security"},
+  // { src: "gardener1.jpg",    name: "Muniraju",       role: "Gardener",           cat: "other"        },
+  // ── ADD YOUR PHOTOS ABOVE THIS LINE ──
+];
+
+/* ── Build gallery ── */
+function buildGallery(cat) {
+  const grid = document.getElementById('galleryGrid');
+  const empty = document.getElementById('galleryEmpty');
+  // Remove all existing cards (keep placeholder)
+  grid.querySelectorAll('.gallery-card').forEach(c => c.remove());
+
+  const filtered = cat === 'all' ? GALLERY_PHOTOS : GALLERY_PHOTOS.filter(p => p.cat === cat);
+
+  if (filtered.length === 0) {
+    empty.classList.add('visible');
+    return;
+  }
+  empty.classList.remove('visible');
+
+  filtered.forEach((photo, i) => {
+    const card = document.createElement('div');
+    card.className = 'gallery-card visible';
+    card.innerHTML = `
+      <img src="${photo.src}" alt="${photo.name}" loading="lazy" onerror="this.style.opacity='.3';this.parentElement.style.background='var(--bg3)'"/>
+      <div class="gallery-card-overlay">
+        <div class="gallery-card-name">${photo.name}</div>
+        <div class="gallery-card-role">${photo.role}</div>
+      </div>
+    `;
+    card.addEventListener('click', () => openLightbox(photo));
+    grid.insertBefore(card, empty);
+  });
+}
+
+/* ── Lightbox ── */
+function openLightbox(photo) {
+  document.getElementById('lightboxImg').src = photo.src;
+  document.getElementById('lightboxImg').alt = photo.name;
+  document.getElementById('lightboxName').textContent = photo.name;
+  document.getElementById('lightboxRole').textContent = photo.role;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+/* ── Tab switching ── */
+document.querySelectorAll('.gtab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.gtab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    buildGallery(tab.dataset.cat);
+  });
+});
+
+// Initial render
+buildGallery('all');
+
+/* ── PARTICLE BG ── */
+const cv = document.getElementById('bg-canvas'), cx = cv.getContext('2d');
+let W, H;
+function rsz() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
+rsz(); addEventListener('resize', rsz);
+const pts = [];
+for (let i = 0; i < 70; i++) pts.push({
+  x: Math.random(), y: Math.random(),
+  vx: (Math.random()-.5)*.00005, vy: (Math.random()-.5)*.00005,
+  r: Math.random()*.7+.2, o: Math.random()*.22+.04
+});
+(function draw() {
+  cx.clearRect(0, 0, W, H);
+  const isDark = document.documentElement.dataset.theme !== 'light';
+  const particleColor = isDark ? '14,184,216' : '0,147,184';
+  pts.forEach((p, i) => {
+    p.x = (p.x+p.vx+1)%1; p.y = (p.y+p.vy+1)%1;
+    const px = p.x*W, py = p.y*H;
+    cx.beginPath(); cx.arc(px, py, p.r, 0, Math.PI*2);
+    cx.fillStyle = `rgba(${particleColor},${p.o * (isDark ? 1 : 0.5)})`; cx.fill();
+    pts.forEach((q, j) => {
+      if (j <= i) return;
+      const dx = (q.x-p.x)*W, dy = (q.y-p.y)*H, d = Math.sqrt(dx*dx+dy*dy);
+      if (d < 100) {
+        cx.beginPath(); cx.moveTo(px, py); cx.lineTo(q.x*W, q.y*H);
+        cx.strokeStyle = `rgba(${particleColor},${.018*(1-d/100)*(isDark ? 1 : 0.5)})`; cx.lineWidth=.5; cx.stroke();
+      }
+    });
+  });
+  requestAnimationFrame(draw);
+})();
+
+/* ── SCROLL REVEAL ── */
+const ro = new IntersectionObserver(e => e.forEach(n => { if (n.isIntersecting) n.target.classList.add('in'); }), { threshold: .08 });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+/* ── HAMBURGER ── */
+const hb = document.getElementById('hb'), mob = document.getElementById('mob');
+function closeMob() { hb.classList.remove('open'); mob.classList.remove('open'); document.body.style.overflow = ''; }
+hb.addEventListener('click', () => {
+  const o = hb.classList.toggle('open');
+  mob.classList.toggle('open', o);
+  document.body.style.overflow = o ? 'hidden' : '';
+});
+
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const t = document.querySelector(a.getAttribute('href'));
+  if (t) { e.preventDefault(); closeMob(); setTimeout(() => t.scrollIntoView({ behavior: 'smooth' }), 60); }
+}));
+
+/* ── THEME TOGGLE ── */
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('sfs-theme') || 'dark';
+document.documentElement.dataset.theme = savedTheme;
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.dataset.theme;
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('sfs-theme', next);
+});
+
+/* ── FORM ── */
+document.getElementById('sendBtn').addEventListener('click', function() {
+  this.textContent = '✓ Message Sent!';
+  this.style.opacity = '.7'; this.disabled = true;
+  setTimeout(() => {
+    this.innerHTML = 'Send Message <svg viewBox="0 0 24 24" fill="none" stroke="#04111a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+    this.style.opacity = ''; this.disabled = false;
+  }, 3000);
+});
+</script>
+</body>
+</html>
