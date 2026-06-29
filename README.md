@@ -67,7 +67,7 @@ Safe and effective cleaning and disinfection of storage water tanks, Sewage Trea
 
 | | |
 |---|---|
-| 📱 Phone | +91 6362675057 / +91 9980490637 |
+| 📱 Phone | +91 99804 90637 / +91 81230 54298 |
 | 📧 Email | shieldfacilityservice@gmail.com |
 | 📍 Address | #241, 2nd Main, 8th Cross, Gandhipuram, Whitefield, Bangalore – 560066 |
 
