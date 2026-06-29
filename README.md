@@ -1,131 +1,76 @@
-# Shield Facility Services — Official Website
+# Shield Facility Services
 
-> **Shielded. Secure. Serene.**  
-> A modern, single-page business website for **Shield Facility Services**, a Bangalore-based facility management company offering security, housekeeping, pest control, plumbing, gardening, CCTV, electrical services, and STP/ETP cleaning.
+**Professional Quality Services with a Personal Touch.**
 
----
-
-## 🌐 Live Preview
-
-<!-- Replace with your actual GitHub Pages / hosting URL -->
-```
-https://enochkgm.github.io/shield-facility-services/
-```
+Shield Facility Services is a Bangalore-based facility management company offering a comprehensive range of security, cleaning, and maintenance solutions for residential and commercial clients. We are a safe and effective partner to clean, disinfect, and manage your premises — with high-trained staff, quality tools, and 100% transparent pricing.
 
 ---
 
-## 📋 Overview
+## 🏢 About Us
 
-This is a fully static, single-file HTML website built for Shield Facility Services (SFS), a proprietorship run by **Mohanraju M**, based in Whitefield, Bangalore. The site acts as a professional digital presence — showcasing services, building trust, and converting visitors into leads via phone and contact form.
+Shield Facility Services provides high-quality service to meet our clients' environmental and industrial needs. Our team delivers cost-effective maintenance and emergency service across all of Bangalore — covering everything from Water Tank Cleaning (STP/ETP) and Housekeeping to CCTV Installations, Plumbing, and Electrical Services.
 
----
-
-## ✨ Features
-
-- **Dark / Light mode** — toggle persisted to `localStorage`
-- **Animated particle background** — subtle canvas-based network effect
-- **Smooth scroll navigation** — fixed navbar with hamburger menu on mobile
-- **Hero section** — headline, stats bar (8+ services, 24/7, licensed)
-- **Trust bar** — client segment logos (Homes, Offices, Hospitals, Malls, Schools)
-- **Services grid** — 8 service cards: Security, Housekeeping, Pest Control, Plumbing, Gardening, CCTV, Electrical, STP/ETP Cleaning
-- **Why Us section** — animated SVG orbit visual + value-proposition pills
-- **Numbers / stats section** — key metrics at a glance
-- **About section** — company story, proprietor card, capability badges
-- **Testimonials** — 3 client reviews with star ratings
-- **Team Gallery** — filterable photo grid (Security / Housekeeping / Technical / Other) with lightbox viewer
-- **Contact section** — enquiry form + direct phone/email/location details
-- **Mobile floating action button (FAB)** — sticky "Call Now" button on mobile
-- **Scroll-reveal animations** — staggered fade-up on section entry
-- **Fully responsive** — mobile-first layout using CSS Grid and `clamp()`
+**Proprietor:** Mohanraju M
 
 ---
 
-## 🛠️ Tech Stack
+## 🛡️ Our Services
 
-| Layer | Technology |
-|---|---|
-| Markup | HTML5 |
-| Styling | Pure CSS3 (CSS custom properties, Grid, Flexbox) |
-| Scripting | Vanilla JavaScript (ES6+) |
-| Fonts | Google Fonts — [Syne](https://fonts.google.com/specimen/Syne) & [Inter](https://fonts.google.com/specimen/Inter) |
-| Graphics | Inline SVG icons + Canvas API (particle bg) |
-| No dependencies | Zero frameworks, zero npm packages |
+### Security Services
+Security is a basic human need. We provide an uninterrupted deployment of technology and trained manpower to ensure you are always protected. Our comprehensive offering ranges from Security Consulting and Safeguarding human life and assets, to Surveillance and Security Audits — a one-stop secure-shop for all your protective and preventive requirements.
 
----
+### House Keeping & Cleaning
+We understand the importance of a clean and healthy workplace to keep employees safe, improve productivity, and impress clients. Our reliable cleaning services keep your premises spic and span.
+- Housekeeping & General Cleaning
+- Carpet, Sofa & Chair Cleaning
+- Swimming Pool Cleaning (Mechanized Dewatering, Sludge Removal, High-pressure & Vacuum Cleaning, Anti-bacterial Spray, UV Radiation & Surface Cleaning)
+- Sewage & Waste Water Treatment Plants (STP / ETP)
 
-## 📁 File Structure
+### Pest Control
+We provide a personalised Pest Management Solution for residential and commercial properties. Our experienced staff inspects your location and provides customised, best-suited solutions for all your pest problems.
 
-```
-shield-facility-services/
-├── index.html        # Entire website — single self-contained file
-├── logo.png          # SFS logo (referenced in nav, hero, and why-us sections)
-├── g1.jpeg           # Gallery photo
-├── g2.jpeg           # Gallery photo
-├── g3.jpeg           # Gallery photo
-└── README.md
-```
+### Plumbing Services
+Verified and trained plumbers who inspect, identify the problem, suggest possible solutions, and communicate rates upfront. Tasks range from fitting and changing of taps, basins, conceals, and wall mixers to repairing blockages and leakages in pipes.
 
-> All CSS and JavaScript are embedded directly inside `index.html` for zero-dependency deployment.
+### Gardening & Landscaping
+We provide gardening and landscaping services for:
+- Residential communities
+- Commercial projects (Malls, Offices)
 
----
+### Electrical Services
+Well-trained electricians guaranteed to get the job done right and on time. We rectify problems across residential, industrial, and commercial areas. We also take on renovation projects with or without material.
 
-## 🖼️ Adding Gallery Photos
+### CCTV Installations
+Supply and installation of CCTV Cameras, IP Cameras, DVRs, NVRs, Video Door Phones, Access Controls, and Security Alarms across:
+- Residential (Homes, Apartments)
+- Commercial (Shops, Offices, Retail, Meeting Centers)
+- Industrial (Factories, Warehouses)
+- Institutional (Hospitals)
+- Educational (Schools, Universities)
 
-Open `index.html` and find the `GALLERY_PHOTOS` array near the bottom of the `<script>` block:
-
-```javascript
-const GALLERY_PHOTOS = [
-  { src: "your-photo.jpg", name: "Staff Name", role: "Job Title", cat: "security" },
-  // ...
-];
-```
-
-**Category options:** `"security"` | `"housekeeping"` | `"technical"` | `"other"`
-
-Place image files in the same directory as `index.html` and add entries to the array.
+### STP / ETP Cleaning
+Safe and effective cleaning and disinfection of storage water tanks, Sewage Treatment Plants (STP), and Effluent Treatment Plants (ETP).
 
 ---
 
-## 🚀 Deployment
+## ✅ Why Choose Us
 
-### GitHub Pages
-
-1. Push the repo to GitHub.
-2. Go to **Settings → Pages**.
-3. Set source to `main` branch, `/ (root)`.
-4. Your site will be live at `https://<username>.github.io/<repo-name>/`.
-
-### Any Static Host
-
-Upload all files (`index.html`, `logo.png`, `g1.jpeg`, etc.) to any static hosting provider — Netlify, Vercel, Hostinger, or a shared cPanel host. No build step required.
+- **High-Trained Staff** — Verified and experienced professionals across all service categories
+- **Quality Cleaning Tools** — Industry-grade equipment for effective results
+- **100% Transparent Pricing** — No hidden charges; rates communicated upfront
+- **24/7 Emergency Service** — Always available when you need us
+- **Licensed & Verified** — Compliant and trustworthy
 
 ---
 
-## 📞 Business Contact
+## 📍 Contact
 
 | | |
 |---|---|
 | 📱 Phone | +91 6362675057 / +91 9980490637 |
 | 📧 Email | shieldfacilityservice@gmail.com |
-| 📍 Address | Whitefield, Bangalore – 560066 |
+| 📍 Address | #241, 2nd Main, 8th Cross, Gandhipuram, Whitefield, Bangalore – 560066 |
 
 ---
 
-## 🎨 Customisation Guide
-
-| What to change | Where to find it |
-|---|---|
-| Brand colour (cyan `#0eb8d8`) | `:root` CSS variables — `--brand`, `--brand-dk` |
-| Company name / tagline | `<title>` tag and `.hero-h` section |
-| Service descriptions | `.svc-card` blocks inside `#services` |
-| Testimonials | `.tcard` blocks inside `#testimonials` |
-| Stats / numbers | `.hstat` (hero) and `.ncell` (numbers section) |
-| Contact details | `#contact` section + footer `.fcol` |
-| Gallery images | `GALLERY_PHOTOS` array in the `<script>` block |
-
----
-
-## 📄 License
-
-This website was built for **Shield Facility Services**.  
-© 2025 Shield Facility Services. Proprietor: Mohanraju M. All rights reserved.
+*© 2025 Shield Facility Services. Proprietor: Mohanraju M. All rights reserved.*
